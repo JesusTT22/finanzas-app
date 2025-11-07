@@ -5,13 +5,13 @@ import React, { useState } from 'react';
 const Login = () => {
     {/*Declaracion de contraseña y correo*/}
     const [password, setPassword] = useState();
-    const [username, setUsername] = useState();
+    const [correo, setCorreo] = useState();
 
     {/*Funcion para Capturar datos almacenados al hacer clic en el boton de login*/}
     const  haddleLogin = (e) => {
         e.preventDefault();
         const data = {
-            username: username,
+            correo: correo,
             password: password
         };
 
@@ -40,9 +40,9 @@ const Login = () => {
                     <p className="text-base">Tus finanzas querían hablar contigo... decidimos intervenir.</p>
                     <div className="flex flex-col mt-10">
                         <label htmlFor="email" className="text-lg font-bold text-dark">Correo: </label>
-                        <input  onChange={(event) => {setUsername(event.target.value)}}
+                        <input  onChange={(event) => {setCorreo(event.target.value)}}
                         type="email"
-                        id="email" 
+                        id="correo" 
                         className="border-4 border-dark p-3 focus:outline-none" />
                     </div>
                     <div className="flex flex-col mt-3">

@@ -1,0 +1,15 @@
+@import "tailwindcss";
+
+
+@theme {
+    --color-primary: oklch(55.8% 0.288 302.321);
+    --color-dark: oklch(14.7% 0.004 49.25);
+    --color-white: oklch(98.5% 0 0);
+    --color-background: oklch(98% 0.016 73.684);
+    --color-blue: oklch(80.9% 0.105 251.813);
+}
+
+body {
+    background-color: oklch(98.2% 0.018 155.826);
+    font-family: "Courier Prime", monospace;
+}
