@@ -1,42 +1,37 @@
 import './css/Registro.css'
+import axios from 'axios'
 import React, { useState } from 'react'
+import { Route, useNavigate } from 'react-router-dom'
 
 const Registro = () => {
     {/*DECLARACION DE VARIABLES A REGISTRAR */}
-    const [username, setUsername] = useState();
-    const [nombre, setNombre] = useState();
-    const [apellido, setApellido] = useState();
-    const [correo, setCorreo] = useState();
-    const [password, setPassword] = useState();
-    const [fecha_nacimiento, setFechaNacimiento] = useState();
+    const  [values, setValues] = useState({
+        nombre: '',
+        apellido: '',
+        fecha_nacimiento: '',
+        username: '',
+        correo: '',
+        password: ''
+    })
+
+    const redireccion = useNavigate()
+    const handleChanges = (e) => {
+        setValues({...values, [e.target.name]:e.target.value})
+    }
 
     {/*FUNCION PARA DATOS ALMACENADOS AL HACER CLIC EN EL BOTON DE REGISTRO*/}
-    const haddleRegistro = (e) => {
-        e.preventDefault();
-        const data = {
-            nombre: nombre,
-            apellido: apellido,
-            username: username,
-            correo: correo,
-            password: password,
-            fecha_nacimiento: fecha_nacimiento
-        };
-
+    
         {/*HACER LLAMADO A LA URL*/}
-        fetch('http://localhost:3000/registro', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-        .then(response => response.json())
-        .then(result => {
-            console.log(result)
-        })
-        .catch(error => {
-            console.log(error)
-        })
+        const handleSumbit = async (e) => {
+            e.preventDefault()
+            try {
+                const respuesta = await axios.post('http://localhost:3000/registro', values)
+                if(respuesta.status === 201 ) {
+                    redireccion('/login')
+                }
+            } catch (err){
+                console.log(err.message)
+            }
     }
 
     return(
@@ -46,56 +41,52 @@ const Registro = () => {
                     <div className="hidden sm:block rounded-sm absolute bg-dark w-full h-full -z-10 left-3 -bottom-3"></div>
                     <h1 className="font-bold text-4xl text-dark">¡Bienvenido!</h1>
                     <p className="text-base">Tus finanzas querían hablar contigo... decidimos intervenir.</p>
+                    <form onSubmit={handleSumbit}>
                     <div className="flex flex-col mt-10">
                         <label htmlFor="email" className="text-lg font-bold text-dark">Username: </label>
-                        <input  onChange={(event) => {setUsername(event.target.value)}}
-                        type="text"
-                        id="username" 
+                        <input  onChange={handleChanges}
+                        type="text" id="username" name="username"
                         className="border-4 border-dark p-3 focus:outline-none" />
                     </div>
                     <div className="flex flex-col mt-10">
                         <label htmlFor="email" className="text-lg font-bold text-dark">Nombre: </label>
-                        <input  onChange={(event) => {setNombre(event.target.value)}}
-                        type="text"
-                        id="nombre" 
+                        <input  onChange={handleChanges}
+                        type="text" id="nombre" name="nombre"
                         className="border-4 border-dark p-3 focus:outline-none" />
                     </div>
                     <div className="flex flex-col mt-10">
                         <label htmlFor="email" className="text-lg font-bold text-dark">Apellido: </label>
-                        <input  onChange={(event) => {setApellido(event.target.value)}}
-                        type="text"
-                        id="apellido" 
+                        <input  onChange={handleChanges}
+                        type="text" id="apellido" name="apellido"
                         className="border-4 border-dark p-3 focus:outline-none" />
                     </div>
                     <div className="flex flex-col mt-10">
                         <label htmlFor="email" className="text-lg font-bold text-dark">Fecha de Nacimiento: </label>
-                        <input  onChange={(event) => {setFechaNacimiento(event.target.value)}}
-                        type="date"
-                        id="fecha_nacimiento" 
+                        <input  onChange={handleChanges}
+                        type="date" id="fecha_nacimiento" name="fecha_nacimiento"
                         className="border-4 border-dark p-3 focus:outline-none" />
                     </div>
                     <div className="flex flex-col mt-10">
                         <label htmlFor="email" className="text-lg font-bold text-dark">Correo: </label>
-                        <input  onChange={(event) => {setCorreo(event.target.value)}}
-                        type="email"
-                        id="email" 
+                        <input  onChange={handleChanges}
+                        type="email" id="email"  name="correo"
                         className="border-4 border-dark p-3 focus:outline-none" />
                     </div>
                     <div className="flex flex-col mt-3">
                         <label htmlFor="password" className="text-lg font-bold text-dark">Contraseña: </label>
                     </div>
                     <div className="relative">
-                        <input onChange={(event) => {setPassword(event.target.value)}}
-                        type="password"
-                        id="password"
+                        <input onChange={handleChanges}
+                        type="password" id="password" name="password"
                         className="w-full border-4 border-dark p-3 focus:outline-none" />
-                        <img src="./eye-slash-solid-full.svg" alt="ojo" id="ojo" className="absolute cursor-pointer top-0 botton-0 right-4 my-auto"/>
+                        <img src="./eye-slash-solid-full.svg" alt="ojo" id="ojo" className="h-8 bottom-1 absolute cursor-pointer top-0 botton-0 right-4 my-auto"/>
                     </div>
                     <a href="#" type="" className="text-base text-right">¿Otra vez sin contraseña?</a>
                     <div className="relative group">
-                        <button onClick={haddleRegistro} className="mt-3 bg-primary text-white py-3 w-full font-bold text-lg relative z-10 group-hover bg-dark transition-all">Ingresar</button>
+                        <button className="mt-3 bg-primary text-white py-3 w-full font-bold text-lg relative z-10 group-hover bg-dark transition-all">Ingresar</button>
                         <div className="w-full h-12 bg-dark absolute -bottom-2 left-2 z-0 transition-all group-hover:bottom-0 group-hover:left-0"></div>
                     </div>
+                    </form>
                 </div>
             </div>
         </nav>
