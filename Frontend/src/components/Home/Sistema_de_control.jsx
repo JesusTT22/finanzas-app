@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
+import Sidebar from '../vistas/sidebar.jsx'
 
 const Sistema_de_control = () => {
     {/*Control de Autorizacion de Sesiones */}
@@ -30,9 +31,9 @@ const Sistema_de_control = () => {
             fetchUser()
         }, [])
     return(
-        <nav>
-            <h1>Se ha Logeado Correctamente</h1>
-        </nav>
+            <div className="w-full h-screen overflow-hidden">
+            <Sidebar />
+        </div>
     )
 }
 
