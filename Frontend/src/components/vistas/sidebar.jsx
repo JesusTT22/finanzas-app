@@ -35,6 +35,34 @@ export default function sidebar() {
         {title: "Reportes", icon: <MdOutlineHeadsetMic />},
     ]
 
+    const [Dropdown, setDropdown] = useState({
+        Perfil: false,
+        Configuracion: false,
+        Cerrar_Sesion: false
+    })
+
+    const [isPerfilOpen, setIsPerfilOpen] = useState(false)
+    const [isNotificacionOpen, setIsNotificacionOpen] = useState(false)
+
+    const togglePerfil = () => {
+        setIsPerfilOpen(!isPerfilOpen)
+    }
+
+    const toggleNotificacion = () => {
+        setIsNotificacionOpen(!isNotificacionOpen)
+    }
+    
+
+    const MenusDrop = [
+        {title: "Perfil"},
+        {title: "Configuración"},
+        {title: "Cerrar Sesión"},
+     ]
+
+    const Notificacion = [
+        {title: "Mensaje"}
+    ] 
+
     return(
         <section>
             <div className='w-full flex'>
@@ -109,18 +137,53 @@ export default function sidebar() {
                         </button>
                     </div>
 
-                    <div className="flex items-center gap-x-8">
                     {/*Notificaciones */}
-                    <button className="relative">
-                        <div className="w-5 h-5 bg-zinc-50 flex items-center justify-center absolute -top-1.5 -right-2.5 rounded-full p-0.5">
-                            <span className="bg-red-600 text-white rounded-full w-full h-full flex items-center justify-center text-xs">3</span>
-                        </div>
-                        <FaBell className="text-xl" />
-                    </button>
+                        <div className='flex items-center gap-4'>
+                            <button className="relative" onClick={toggleNotificacion}>
+                                <div className="w-5 h-5 bg-zinc-50 flex items-center justify-center absolute -top-1.5 -right-2.5 rounded-full p-0.5 border border-zinc-200">
+                                    <span className="bg-red-600 text-white rounded-full w-full h-full flex items-center justify-center text-[10px] font-semibold">3</span>
+                                </div>
+                                <FaBell className="w-5 h-5 text-slate-600 cursor-pointer" />
+                            </button>
 
-                    {/*Imagen de Usuario */}
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg/960px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg" alt="imagen de perfil" className="w-11 h-11 rounded-full object-cover object-center cursor-pointer" />
+                        {isNotificacionOpen && (
+                            <div className="absolute right-66 mt-36 w-64 bg-white rounded-xl shadow-2xl border border-gray-200 z-50">
+                                <div className="px-6 py-5 bg-gradient-to-r from-violet-50/80 via-transparent to-pink-50/80 border-b border-gray-100/60">
+                                    <div className="flex items-center justify-between">
+                                    <h3 className="text-lg font-bold text-gray-900">Notificaciones</h3>
+                                    <span className="text-xs font-semibold text-blue-600 bg-blue-100 px-3 py-1 rounded-full">
+                                        3 nuevas
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        )}
+                       
+                    <button onClick={togglePerfil} className='relative border border-zinc-300 bg-zinc-150 rounded-full py-1 px-1 relative cursor-pointer'>
+                        <div className="flex items-center gap-x-3">
+
+                            {/*Imagen de Usuario */}
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg/960px-20180610_FIFA_Friendly_Match_Austria_vs._Brazil_Neymar_850_1705.jpg" alt="imagen de perfil" className="w-9 h-9 rounded-full object-cover object-cover object-center cursor-pointer" />
+                            
+                            {/*Nombre y Cargo del Usuario */}
+                            <div className='flex flex-col items-start'>
+                            <span className='text-sm font-semibold text-slate-700 leading-tight'>Jesus Torrealba</span>
+                            <span className='text-sm font-medium leading-tight'>Administrador</span>
+                            </div>
+                            <FaChevronDown
+                            className={`w-3.5 h-3.5 text-slate-600 transition-transform ${isPerfilOpen ? 'rotate-180' : ''}`} />
+                            </div>
+                    </button>
+                    {isPerfilOpen && (
+                    <div className='absolute right-8 mt-50 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50'>
+                        {MenusDrop.map((Menu, index) => (
+                        <button key={index} className="w-full text-left px-4 py-2.5 text-sm text-gray-700 hover:bg-blue-50 transition-colors font-medium">
+                            {Menu.title}
+                        </button>
+                        ))}
                     </div>
+                    )}
+                </div>
                 </div>
 
                 {/*Contenido del Dashboard */}
